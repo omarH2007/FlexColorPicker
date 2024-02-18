@@ -3,8 +3,8 @@
 //  FlexColorPicker
 //
 //  Created by Rastislav Mirek on 28/5/18.
-//  
-//	MIT License
+//
+//    MIT License
 //  Copyright (c) 2018 Rastislav Mirek
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -28,8 +28,8 @@
 
 import UIKit
 
-private let colorPickerThumbViewDiameter: CGFloat = 28
-private let defaultWideBorderWidth: CGFloat = 6
+private let colorPickerThumbViewDiameter: CGFloat = 18
+private let defaultWideBorderWidth: CGFloat = 4
 private let defaultExpandedUpscaleRatio: CGFloat = 1.6
 private let expansionAnimationDuration = 0.3
 private let collapsingAnimationDelay = 0.1
@@ -102,7 +102,7 @@ open class ColorPickerThumbView: UIViewWithCommonInit {
         percentageLabel.textAlignment = .center
         percentageLabel.alpha = 0
         clipsToBounds = false // required for the text label to be displayed ourside of bounds
-        borderView.backgroundColor = UIColor.colorPickerThumbViewWideBorderColor
+        borderView.backgroundColor = .white
         (borderView as? LimitedGestureCircleView)?.delegate = delegate
         (colorView as? LimitedGestureCircleView)?.delegate = delegate
         setColor(color, animateBorderColor: false)
@@ -111,7 +111,6 @@ open class ColorPickerThumbView: UIViewWithCommonInit {
     open func setColor(_ color: UIColor, animateBorderColor: Bool) {
         self.color = color
         colorView.backgroundColor = color
-        setDarkBorderIfNeeded(animated: animateBorderColor)
     }
 
     public func updatePercentage(_ percentage: Int) {
@@ -155,7 +154,7 @@ extension ColorPickerThumbView {
 
     private func setWideBorderColors(_ isDark: Bool) {
         self.borderView.viewBorderColor = isDark ? UIColor.colorPickerBorderColor : UIColor.colorPickerLightBorderColor
-        self.borderView.backgroundColor = isDark ? UIColor.colorPickerThumbViewWideBorderDarkColor : UIColor.colorPickerThumbViewWideBorderColor
+        self.borderView.backgroundColor = .white
     }
 }
 

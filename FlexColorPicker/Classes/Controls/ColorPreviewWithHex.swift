@@ -3,8 +3,8 @@
 //  FlexColorPicker
 //
 //  Created by Rastislav Mirek on 1/6/18.
-//  
-//	MIT License
+//
+//    MIT License
 //  Copyright (c) 2018 Rastislav Mirek
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -42,25 +42,24 @@ private let confirmAnimationDuration = 0.3
 /// When tapped, it animates and sends `primaryActionTriggered` event. This event is interpreted as user confirming current color as final picked color by the `ColorPickerController`.
 @IBDesignable
 open class ColorPreviewWithHex: AbstractColorControl {
-    private var labelHeightConstraint = NSLayoutConstraint()
 
     /// A subview that shows example of selected color. It is set as its `backgroundColor`.
     public let colorView = UIView()
     /// A label subview that shows hex value of selected color as text.
-    public let hexLabel = UILabel()
+ 
 
     /// Convinience layout anchor that corresponds to bottom edge of `colorView`. This might not be equivalent of `bottomAnchor` as the `hexLabel` is below `colorView` (it it is displayed).
     ///
     /// Use this to align other views to `colorView`.
     open var hexLabelToLayoutAnchor: NSLayoutYAxisAnchor {
-        return hexLabel.topAnchor
+        return colorView.topAnchor
     }
 
     /// Whether to show (`true`) or hide (`false`) the subview that shows hex value of currently selected color (the `hexLabel`).
     @IBInspectable
     public var displayHex: Bool = true {
         didSet {
-            updateLabelHeight()
+//            updateLabelHeight()
         }
     }
 
@@ -68,7 +67,7 @@ open class ColorPreviewWithHex: AbstractColorControl {
     @IBInspectable
     public var hexHeight: CGFloat = defaultHexLabelHeight {
         didSet {
-            updateLabelHeight()
+            //   updateLabelHeight()
         }
     }
 
@@ -76,7 +75,7 @@ open class ColorPreviewWithHex: AbstractColorControl {
     @IBInspectable
     public var textColor: UIColor = UIColor.colorPickerLabelTextColor {
         didSet {
-            hexLabel.textColor = textColor
+//            hexLabel.textColor = textColor
         }
     }
 
@@ -118,25 +117,15 @@ open class ColorPreviewWithHex: AbstractColorControl {
         addSubview(colorView)
         colorView.translatesAutoresizingMaskIntoConstraints = false
 
-        addSubview(hexLabel)
-        hexLabel.translatesAutoresizingMaskIntoConstraints = false
+       
 
         colorView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         colorView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         colorView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        colorView.bottomAnchor.constraint(equalTo: hexLabel.topAnchor).isActive = true
+        colorView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        colorView.heightAnchor.constraint(equalToConstant: 32)
+        colorView.widthAnchor.constraint(equalToConstant: 32)
 
-        hexLabel.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        hexLabel.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        labelHeightConstraint = hexLabel.heightAnchor.constraint(equalToConstant: hexHeight)
-        labelHeightConstraint.priority = .init(999)
-        labelHeightConstraint.isActive = true
-        hexLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        updateLabelHeight()
-
-        hexLabel.textColor = textColor
-        hexLabel.textAlignment = .center
-        hexLabel.font = hexFont
         updateBorder(visible: borderOn, view: self)
         setSelectedHSBColor(selectedHSBColor, isInteractive: false) // set default color if it is not set, otherwise keep color set in storyboard via IBInspectable
         updateCornerRadius()
@@ -146,12 +135,9 @@ open class ColorPreviewWithHex: AbstractColorControl {
         super.setSelectedHSBColor(hsbColor, isInteractive: interactive)
         let color = hsbColor.toUIColor()
         colorView.backgroundColor = color
-        hexLabel.text = "#\(color.hexValue())"
     }
 
-    private func updateLabelHeight() {
-        labelHeightConstraint.constant = displayHex ? hexHeight : 0
-    }
+   
     
     /// Updates  border color of the color preview when interface is changed to dark or light mode.
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -184,7 +170,7 @@ open class ColorPreviewWithHex: AbstractColorControl {
     }
 
     private func updateCornerRadius() {
-        cornerRadius_ = min(cornerRadius, bounds.height / 2, bounds.width / 2)
+        cornerRadius_ = 32 / 2
         if cornerRadius_ > 0 {
             clipsToBounds = true
         }

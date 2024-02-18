@@ -3,8 +3,8 @@
 //  FlexColorPicker
 //
 //  Created by Rastislav Mirek on 7/6/18.
-//  
-//	MIT License
+//
+//    MIT License
 //  Copyright (c) 2018 Rastislav Mirek
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -30,7 +30,7 @@ import UIKit
 
 private let sideMargin: CGFloat = 20
 private let topMargin: CGFloat = 24
-private let paletteVerticalMargin: CGFloat = 42
+private let paletteVerticalMargin: CGFloat = 11
 private let paletteHorizontalMargin: CGFloat = 32
 private let minDistanceFromSafeArea: CGFloat = 10
 private let minSpaceAboveSlider: CGFloat = 50
@@ -151,6 +151,8 @@ open class DefaultColorPickerViewController: UIViewController, ColorPickerContro
 
         if !useRadialPalette {
             colorPalette = RectangularPaletteControl()
+            colorPalette.contentView.clipsToBounds = true
+            colorPalette.contentView.layer.cornerRadius = 8
             colorPicker.rectangularHsbPalette = colorPalette as? RectangularPaletteControl
         }
         else {
@@ -171,13 +173,15 @@ open class DefaultColorPickerViewController: UIViewController, ColorPickerContro
         standardConstraints += [
             colorPreview.leftAnchor.constraint(equalTo: view.safeAreaLeftAnchor, constant: sideMargin),
             colorPreview.topAnchor.constraint(equalTo: view.safeAreaTopAnchor, constant: topMargin),
-            colorPreview.heightAnchor.constraint(equalToConstant: colorPreview.intrinsicContentSize.height)
+            colorPreview.heightAnchor.constraint(equalToConstant: 32),
+            colorPreview.widthAnchor.constraint(equalToConstant: 32)
+
         ]
         colorPreview.setContentCompressionResistancePriority(.init(900), for: .horizontal)
         standardConstraints += [
             brightnessSlider.leftAnchor.constraint(equalTo: colorPreview.rightAnchor, constant: sideMargin),
             brightnessSlider.rightAnchor.constraint(equalTo: view.safeAreaRightAnchor, constant: -sideMargin),
-            brightnessSlider.bottomAnchor.constraint(equalTo: colorPreview.bottomAnchor, constant: 0)
+            brightnessSlider.centerYAnchor.constraint(equalTo: colorPreview.centerYAnchor, constant: 0)
         ]
         standardConstraints += [
             colorPalette.leftAnchor.constraint(equalTo: view.safeAreaLeftAnchor, constant: sideMargin),
